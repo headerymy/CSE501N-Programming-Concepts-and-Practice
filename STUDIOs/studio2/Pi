@@ -1,0 +1,38 @@
+package studio2;
+
+import cse131.ArgsProcessor;
+
+public class Pi {
+  
+	public static boolean isInside (double x_axis, double y_axis){  	 
+		double distance = Math.sqrt((x_axis * x_axis) + (y_axis * y_axis));	 
+		return (distance < 0.5) ? true : false; 
+	}
+  
+	public static void computePi(int numthrows) {    
+		double ans = 0.0;    
+		//  fill in to compute ans = Pi     
+		int hits = 0;
+        
+		for (int i = 0; i < numthrows; i++){    	 
+			double x = Math.random() - 0.5;   	 
+			double y = Math.random() - 0.5;
+    	     	 
+			if (isInside(x, y))
+				hits++;     
+		}
+			double double_numthrows = numthrows;
+			ans = (4.0 * (hits / double_numthrows));
+    	     
+			System.out.println("Our group shows Pi = " + ans);  
+	}
+
+ 
+	public static void main(String[] args) {	 
+		ArgsProcessor ap = new ArgsProcessor(args);
+		
+		int num_throws =ap.nextInt("Please enter the number of throws: ");	  	 
+		computePi(num_throws);
+  
+	}
+}
