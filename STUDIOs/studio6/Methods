@@ -1,0 +1,83 @@
+package studio6;
+
+public class Methods {
+
+	/**
+	 * calculate the n factorial
+	 * @param n how many numbers
+	 * @return factorial
+	 */
+	public static int fact(int n) {
+		if (n <= 0)
+			return 1;
+		return n * fact(n - 1);
+	}
+	
+	/**
+	 * calculate the Fibonacci(n)
+	 * @param n how many numbers
+	 * @return fibonacci
+	 */
+	public static int fib(int n) {
+		if (n <= 1)
+			return n;
+		return fib(n - 1) + fib(n - 2);
+	}
+	
+	/**
+	 * determine the number n is odd or not
+	 * @param n the number n
+	 * @return if it is odd or not
+	 */
+	public static boolean isOdd(int n) {
+		if (n <= 0)
+			return false;
+		return !isOdd(n - 1);
+	}
+	
+	/**
+	 * calculate the sum of a and b
+	 * @param a first number to be added
+	 * @param b second number to be added
+	 * @return sum of a and b
+	 */
+	public static int sum(int a, int b) {
+		if (b <= 0)
+			return a;
+		return sum(a + 1, b - 1);
+	}
+	
+	/**
+	 * sum down by 2
+	 * @param n
+	 * @return the sum
+	 */
+	public static int sumDownBy2(int n) {
+		if (n <= 1)
+			return n;
+		return n + sumDownBy2(n - 2);
+	}
+	
+	/**
+	 * harmonic sum
+	 * @param n
+	 * @return sum
+	 */
+	public static double harmonicSum(int n) {
+		if (n == 1)
+			return 1;
+		return 1.0/n + harmonicSum(n - 1);
+	}
+	
+	/**
+	 * multiple of two integers
+	 * @param a
+	 * @param b
+	 * @return multiple of a and b
+	 */
+	public static int mult(int a, int b) {
+		if (b == 0)
+			return 0;
+		return a + mult(a, b - 1);
+	}
+}
