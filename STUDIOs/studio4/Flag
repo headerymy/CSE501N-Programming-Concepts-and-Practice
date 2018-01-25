@@ -1,0 +1,81 @@
+package studio4;
+
+import sedgewick.StdAudio;
+import sedgewick.StdDraw;
+import sedgewick.StdIn;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.math.*;
+
+
+public class Flag {
+
+
+	public static void main(String[] args) throws FileNotFoundException {
+		//
+		//  Add code for your studio below here.
+		//
+		double x = 1.0/4 * (Math.sqrt(5)-1);
+		double y = 1.0/2 * Math.sqrt(1.0/2 * (25 - 11 * Math.sqrt(5)));
+		//double a = 1.0/2 * (3 - Math.sqrt(5));
+		double b = Math.sqrt(5) - 2;
+		double r = 1.0/2 * Math.sqrt(1.0/5 * (5 - 2 * Math.sqrt(5)));
+		double R = Math.sqrt(1.0/10 * (25 - 11 * Math.sqrt(5)));
+
+		StdDraw.setPenColor();
+		StdDraw.filledRectangle(5.4, 2.7, 5.5, 2.8);
+		StdDraw.setXscale(0, 12);
+		StdDraw.setYscale(0, 6);
+		StdDraw.setPenColor(StdDraw.BLUE);
+		StdDraw.filledRectangle(5.4, 0.45, 5.4, 0.45);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.filledRectangle(5.4, 0.975, 5.4, 0.075);
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.filledRectangle(5.4, 2.7, 5.4, 1.7);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.filledRectangle(5.4, 4.475, 5.4, 0.075);
+		StdDraw.setPenColor(StdDraw.BLUE);
+		StdDraw.filledRectangle(5.4, 4.95, 5.4, 0.45);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.filledCircle(3.6, 2.7, 1.2);
+
+		double[] x_co = {3.6, 3.4, 2.5, 3.2, 2.9, 3.6, 4.3, 4.1, 4.8, 3.9};
+		double[] y_co = {3.9, 3.1, 3.1, 2.6, 1.7, 2.2, 1.7, 2.6, 3.1, 3.1};
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.filledPolygon(x_co, y_co);
+		StdDraw.setPenColor();
+		StdDraw.text(2, 4.4, "North Korea");
+		StdDraw.text(5.4, 2.7, "North Korea");
+		StdDraw.text(8.3, 1.2, "North Korea");
+
+
+		System.setIn(new FileInputStream("music/Ascale.txt"));
+		while (!StdIn.isEmpty()) {
+
+			// read in the pitch, where 0 = Concert A (A4)
+			int pitch = StdIn.readInt();
+
+			// read in duration in seconds
+			double duration = StdIn.readDouble();
+			double y_duration = StdIn.readDouble();
+
+			// build sine wave with desired frequency
+			double hz = 440 * Math.pow(2, pitch / 12.0);
+			int N = (int) (StdAudio.SAMPLE_RATE * duration);            		
+			
+			double[][] a = new double[10][N + 1];
+			for (int i = 0; i < 10; i++){ 
+				for (int j =0; j <= N; j++){
+					a[i][j] = Math.sin(2 * Math.PI * i * hz / StdAudio.SAMPLE_RATE);
+				}
+			}
+
+			// play it using standard audio
+			for (int z = 0; z <= N; z++){ 
+				StdAudio.play(a[z]);
+			}
+		}
+
+	}
+}
