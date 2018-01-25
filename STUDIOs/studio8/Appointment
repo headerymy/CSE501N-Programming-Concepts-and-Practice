@@ -1,0 +1,73 @@
+package studio8;
+
+//import javax.swing.plaf.synth.SynthSpinnerUI;
+
+public class Appointment {
+	
+	private final Date date;
+	private final Time time;
+	
+	/**
+	 * constructor
+	 * @param date
+	 * @param time
+	 */
+	public Appointment(Date date, Time time) {
+		this.date = date;
+		this.time = time;
+	}
+	
+	@Override
+	/**
+	 * to string method
+	 */
+	public String toString() {
+		return "Appointment [date=" + date + ", time=" + time + "]";
+	}
+
+	@Override
+	/**
+	 * check if equals
+	 */
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((time == null) ? 0 : time.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	/**
+	 * check if equals
+	 */
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Appointment other = (Appointment) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (time == null) {
+			if (other.time != null)
+				return false;
+		} else if (!time.equals(other.time))
+			return false;
+		return true;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Appointment ap = new Appointment(new Date(12, 4, 1993, new Boolean(true)), new Time(24, 04, new Boolean(true)));
+		System.out.println(ap);
+	}
+
+}
