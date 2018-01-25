@@ -1,0 +1,164 @@
+package project;
+
+import java.awt.Color;
+import java.util.Random;
+
+import sedgewick.StdDraw;
+
+public class GameBoard{
+	
+	private Projectile projectile;
+	private Player player1;
+	private Player player2;
+	private Ground ground;
+	private int currentPlayer = 1;
+	private boolean gameFlag = false;
+
+	/**
+	 * constructor of game board
+	 */
+	public GameBoard() {
+		// TODO Auto-generated constructor stub
+		StdDraw.setCanvasSize(800, 600);
+		projectile = new Projectile();
+		double x = ((double)new Random().nextDouble() * 3 + 1)/10;
+		double y = ((double)new Random().nextDouble() * 4 + 5)/10;
+		player1 = new Player(x, 0.05, 0.05, 0.1);
+		player2 = new Player(y, 0.05, 0.05, 0.1);
+		ground = new Ground(0.5, 0, 1, 0.1);
+		player1.draw();
+		player2.draw();
+		ground.draw();
+	}
+
+	/**
+	 * draw the projectile
+	 * @param angle 	the initial angle of projectile
+	 * @param velocity	the initial velocity of projectile
+	 */
+	public void fireProjectile(int angle, int velocity) {
+		if(currentPlayer == 1){
+			projectile.setX(player1.getX() + player1.getWidth() / 2);
+			projectile.setY(player1.getY() + player1.getHeight() / 2);
+		} else{
+			projectile.setX(player2.getX() - player2.getWidth() / 2);
+			projectile.setY(player2.getY() + player2.getHeight() / 2);
+		}
+		
+		double xs = Math.cos(Math.toRadians(angle)) * velocity / 1000;
+		double ys = Math.sin(Math.toRadians(angle)) * velocity / 1000;
+
+		// Try to use this to stable the graph
+		//StdDraw.enableDoubleBuffering();
+
+		while(projectile.getX() > 0 && projectile.getX() < 1 && projectile.getY() < 1) {
+			StdDraw.clear();
+			player1.draw();
+			player2.draw();
+			ground.draw();
+			if(currentPlayer == 1){
+				projectile.setX(projectile.getX() + xs);
+			}
+			else if(currentPlayer == 2){
+				projectile.setX(projectile.getX() - xs);
+			}
+			projectile.setY(projectile.getY() + ys);
+			StdDraw.filledCircle(projectile.getX(), projectile.getY(), projectile.getRadius());
+			StdDraw.show();
+
+			ys -= 9.8 * 30 / 1000 / 1000;
+			
+			if(hitGround()){
+				break;
+			}
+			
+			int result = hitPlyaer();
+			
+			if(result == 1){
+				StdDraw.text(0.5, 0.8, "player1(left) win!!");
+				StdDraw.text(0.5, 0.7, "Game Over!! Game will restarts, please wait!!");
+				gameFlag = true;
+				break;
+			}else if(result == 2){
+				StdDraw.text(0.5, 0.8, "player2(right) win!!");
+				StdDraw.text(0.5, 0.7, "Game Over!! Game will restarts, please wait!!");
+				gameFlag = true;
+				break;
+			}
+			StdDraw.pause(30);
+		}
+		
+		player1.draw();
+		player2.draw();
+		ground.draw();
+		StdDraw.show();
+		changePlayer();
+	}
+
+	/**
+	 * exchange the player
+	 */
+	public void changePlayer(){
+		if(currentPlayer == 1)
+			currentPlayer = 2;
+		else
+			currentPlayer = 1;
+	}
+
+	/**
+	 * chech if the projectile hits the other player
+	 * @return the player number
+	 */
+	public int hitPlyaer(){
+		if( projectile.getX() + projectile.getRadius() > player2.getX() - player2.getWidth() / 2 
+				&& projectile.getX() - projectile.getRadius() < player2.getX() + player2.getWidth() / 2 
+				&& projectile.getY() - projectile.getRadius() < player2.getY() + player2.getHeight() / 2 )
+			return 1;
+		
+		if( projectile.getX() - projectile.getRadius() < player1.getX() + player1.getWidth() / 2 
+				&& projectile.getX() + projectile.getRadius() > player1.getX() - player1.getWidth() / 2 
+				&& projectile.getY() - projectile.getRadius() < player1.getY() + player1.getHeight() / 2 )
+			return 2;
+		return 0;
+	}
+
+	/**
+	 * chech if the projectile hits the ground
+	 * @return if hit
+	 */
+	public boolean hitGround(){
+		if( projectile.getY() - projectile.getRadius() > 0.05 ) {
+			return false;
+		}
+
+		for(Projectile pro : ground.getProjectiles()) {
+			double distance = Math.sqrt( Math.abs(pro.getX() - projectile.getX()) + Math.abs(pro.getY() - projectile.getY()) );
+			if(distance < pro.getRadius()){
+				return false;
+			}
+		}
+
+		for(double t = 0.0; t <= 0.01; t += 0.001) {
+			StdDraw.setPenColor(Color.RED);
+			StdDraw.filledCircle(projectile.getX(), projectile.getY(), t);
+			StdDraw.show();
+			StdDraw.pause(40);
+		}
+
+		StdDraw.setPenColor(Color.WHITE);
+		StdDraw.filledCircle(projectile.getX(), projectile.getY(), projectile.getRadius());
+		StdDraw.show();
+		StdDraw.setPenColor();
+		ground.addPit(new Projectile(projectile.getX(),projectile.getY()));
+		ground.draw();		
+		return true;
+	}
+
+	/**
+	 * chekc the game flag
+	 * @return if flag or not
+	 */
+	public boolean isGameFlag() {
+		return gameFlag;
+	}	
+}
