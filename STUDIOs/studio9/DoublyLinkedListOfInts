@@ -1,0 +1,89 @@
+package studio9;
+
+import java.util.Iterator;
+
+public class DoublyLinkedListOfInts implements IntList {
+	private ListItem head;
+	private ListItem tail;
+	private int size;
+
+	public DoublyLinkedListOfInts() {
+		this.head = new ListItem(5555, null);
+		this.tail = new ListItem(5555, null);
+		this.head.next = tail;
+		this.tail.prev = head;
+		this.size = 0;
+	}
+
+	@Override
+	public Iterator<Integer> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addFirst(int item) {
+		ListItem it = new ListItem(item, this.head.next);
+		this.head.next.prev = it;
+		it.prev = head;
+		this.head.next = it;
+		size++;
+	}
+
+	@Override
+	public void addLast(int item) {
+		ListItem list = new ListItem(item, this.tail);
+		list.setPrev(this.tail.getPrev());
+		this.tail.setPrev(list);
+		list.getPrev().setNext(list);
+		size++;
+	}
+
+	@Override
+	public int size() {
+		return size;
+	}
+
+	@Override
+	public int indexOf(int item) {
+		int index = 0;
+		for (ListItem p = this.head.next; p.next != null; p = p.next) {		
+			if (p.getValue() == item) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
+	}
+
+	@Override
+	public boolean remove(int item) {
+		for (ListItem p = head; p.next != null; p = p.next) {
+			if (p.next.getValue() == item) {
+				p.setNext(p.getNext().getNext());
+				p.next.prev = p;
+				size--;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return this.size() == 0;
+	}
+
+	public String toString() {
+		String ans = "[";
+		// put the stuff in
+		// this could be a "while" loop but let's use for
+		//
+		for (ListItem p = this.head.getNext(); p.getNext() != null; p = p.getNext()) {
+			ans = ans + p.getValue() + " ";
+		}
+		ans = ans + "]";
+		return ans;
+	}
+}
