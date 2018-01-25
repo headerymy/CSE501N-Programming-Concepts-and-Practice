@@ -1,0 +1,85 @@
+package studio5;
+
+public class Methods {
+
+	/**
+	 * Implemented correctly
+	 * 
+	 * @param x
+	 *            one thing to add
+	 * @param y
+	 *            the other thing to add
+	 * @return the sum
+	 */
+	public static int sum(int x, int y) {
+		return x + y;
+	}
+
+	/**
+	 * 
+	 * @param x
+	 *            one factor
+	 * @param y
+	 *            another factor
+	 * @return the product of the factors
+	 */
+	public static int mpy(int x, int y) {
+		int product = x * y;
+		return product; // FIXME
+	}
+
+	/**
+	 * 
+	 * @param s
+	 *    the string to be changed
+	 * @return Pig Latin format
+	 */
+	public static String pig(String s) {
+		String tmp = s.substring(0, 1);
+		String plf = new String(s.substring(1) + tmp + "ay");
+		return plf;
+	}
+
+	/**
+	 * 
+	 * @param array
+	 *     the array to be sum
+	 * @return the sum of whole array
+	 */ 
+	public static double sumArray(double[] array) {
+		double sum = 0;
+		if (array.length == 0) {
+			return 0;
+		}
+		for (int i = 0; i < array.length; i++) {
+			sum += array[i];
+		}
+		return sum;
+	}
+
+	/**
+	 * 
+	 * @param x
+	 *    1st factor 
+	 * @param y
+	 *    2nd factor
+	 * @param z
+	 *    3rd factor
+	 * @return the average of all three factors
+	 */
+	public static double avg3(int x, int y, int z) {
+		double average = (x + y + z) / 3.0;
+		return average;
+	}
+
+	/**
+	 * 
+	 * @param x
+	 * 	  array to be average
+	 * @return the average of all elements in the array
+	 */
+	public static double average(double[] x) {
+		double averageArray = sumArray(x) / x.length;
+		return averageArray;
+	}
+}
